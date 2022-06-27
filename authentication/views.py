@@ -1,10 +1,11 @@
-from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.response import Response
 import requests
+from drf_yasg.utils import swagger_auto_schema
 # Create your views here.
 
 class UserActivationView(generics.GenericAPIView):
+    @swagger_auto_schema(responses={204:'Your account has been activated',400:'Invalid activation link',403:'This activation link has already been used'})
     def get (self, request, uid, token):
         protocol = 'https://' if request.is_secure() else 'http://'
         web_url = protocol + request.get_host()
@@ -13,7 +14,6 @@ class UserActivationView(generics.GenericAPIView):
         response = requests.post(post_url, data = post_data)
         
         status = response.status_code
-
         if status == 204:
             return Response({'detail':"Your account has been activated"},status=status)
         elif status == 400:

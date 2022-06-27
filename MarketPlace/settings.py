@@ -11,10 +11,12 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import environ
 from pathlib import Path
-
+import os
 # Initialise environment variables
 env = environ.Env()
 environ.Env.read_env()
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,7 +31,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['django-project-354606.ts.r.appspot.com','localhost']
 
 
 # Application definition
@@ -43,10 +45,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #app
     'authentication',
+    'social',
     #third party
     'rest_framework',
     'rest_framework_simplejwt',
     'djoser',
+    'drf_yasg',
+    'coreapi'
 ]
 
 MIDDLEWARE = [
@@ -125,7 +130,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
+STATICFILES_DIRS = ()
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -137,7 +144,8 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-    )
+    ),
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
 
 #EMAIL SETTINGS
@@ -157,5 +165,4 @@ DJOSER = {
     'SEND_CONFIRMATION_EMAIL' : True,
     'ACTIVATION_URL' : 'auth/activate/{uid}/{token}',
 }
-
 

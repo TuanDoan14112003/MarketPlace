@@ -1,0 +1,23 @@
+runtime: python
+env: flex
+entrypoint: daphne -p $PORT --bind 0.0.0.0 MarketPlace.asgi:application 
+
+# beta_settings:
+#   cloud_sql_instances: django-project-354606:asia-southeast1:anikon-db
+
+runtime_config:
+  python_version: 3.7
+
+resources:
+  cpu: 1
+  memory_gb: 2
+
+
+automatic_scaling:
+  min_num_instances: 1
+  max_num_instances: 5
+
+env_variables:
+  SECRET_KEY: django-insecure-cgwz8nq-z#1&fvc(242i$9b15)39%)fw5-3)9-y42))lr0mo0j
+  EMAIL_HOST_USER: tuan14112003@gmail.com
+  EMAIL_HOST_PASSWORD: xkoadzskimcdybus
