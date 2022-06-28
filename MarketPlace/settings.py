@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #app
+    'doc',
     'authentication',
     'social',
     #third party
@@ -51,12 +52,15 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'djoser',
     'drf_yasg',
-    'coreapi'
+    'coreapi',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -166,3 +170,20 @@ DJOSER = {
     'ACTIVATION_URL' : 'auth/activate/{uid}/{token}',
 }
 
+#CORS HEADER SETTING
+CORS_ALLOW_ALL_ORIGINS = True
+
+# Setup support for proxy headers
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+from drf_yasg import openapi
+SWAGGER_SETTINGS = {
+    'DEFAULT_INFO':   
+    openapi.Info(
+      title="Ankon API",
+      default_version='v1.0.0',
+      description="Ankon API",
+      terms_of_service="https://www.google.com/policies/terms/",
+   ),
+}
