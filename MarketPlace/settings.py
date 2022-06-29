@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'doc',
     'authentication',
     'social',
+    'api_v1',
     #third party
     'rest_framework',
     'rest_framework_simplejwt',
@@ -138,6 +139,9 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 STATICFILES_DIRS = ()
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
@@ -177,6 +181,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
+
+# DOC SETTINGS
 from drf_yasg import openapi
 SWAGGER_SETTINGS = {
     'DEFAULT_INFO':   
