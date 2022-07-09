@@ -29,27 +29,30 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         exclude = ['post']
 
-class DetailedPostSerializer(serializers.ModelSerializer):
-    owner = CustomUserSerializer(read_only = True)
-    score = serializers.IntegerField(read_only= True)
-    channel_id = serializers.IntegerField()
-    comments = CommentSerializer(source='comment_set',many=True,read_only=True)
-    class Meta:
-        model = Post
-        exclude = ['channel']
-
 class FileSerializer(serializers.ModelSerializer):
     class Meta:
         model = File
         fields = ['post_id','file']
         read_only_fields = ['post_id']
 
+class DetailedPostSerializer(serializers.ModelSerializer):
+    owner = CustomUserSerializer(read_only = True)
+    score = serializers.IntegerField(read_only= True)
+    channel_id = serializers.IntegerField()
+    comments = CommentSerializer(source='comment_set',many=True,read_only=True)
+    file = FileSerializer(source='file_set',many=True,required=False)
+    class Meta:
+        model = Post
+        exclude = ['channel']
+
+
+
 class PostSerializer(serializers.ModelSerializer):
     owner = CustomUserSerializer(read_only = True)
     score = serializers.IntegerField(read_only= True)
     channel_id = serializers.IntegerField()
     path = serializers.CharField(source='get_absolute_url',read_only=True)
-    file = FileSerializer(source='file_set',many=True,read_only=True)
+    file = FileSerializer(source='file_set',many=True,allow_null=True,required=False)
     class Meta:
         model = Post
         exclude = ['channel']

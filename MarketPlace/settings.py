@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import environ
 from pathlib import Path
 import os
+from datetime import timedelta
 # Initialise environment variables
 env = environ.Env()
 environ.Env.read_env()
@@ -31,7 +32,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['django-project-354606.ts.r.appspot.com','localhost']
+ALLOWED_HOSTS = ['django-project-354606.ts.r.appspot.com','localhost','anikon.herokuapp.com']
 
 
 # Application definition
@@ -167,11 +168,18 @@ EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 #DJOSER SETTINGS
 SIMPLE_JWT = {
    'AUTH_HEADER_TYPES': ('JWT',),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=4),
 }
+
+
 DJOSER = { 
     'SEND_ACTIVATION_EMAIL' : True,
     'SEND_CONFIRMATION_EMAIL' : True,
     'ACTIVATION_URL' : 'auth/activate/{uid}/{token}',
+    'SERIALIZERS' : {
+        'user': 'authentication.serializers.CustomUserSerializer'
+    }
 }
 
 #CORS HEADER SETTING

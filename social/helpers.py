@@ -1,5 +1,8 @@
 import uuid
-def get_filename(file,filename):
-    post_id = file.post.id
+def get_filename(object,filename):
+    try:
+        id = object.post.id
+    except AttributeError: 
+        id = object.user.id
     new_filename = str(uuid.uuid4()) + '_' + filename
-    return f'post_files/{post_id}/{new_filename}'
+    return f'{object.root_folder}/{id}/{new_filename}'

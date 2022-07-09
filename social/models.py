@@ -1,5 +1,6 @@
 from .helpers import get_filename
-from django.template.defaultfilters import slugify
+import imghdr
+from PIL import Image
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.urls import reverse
@@ -29,6 +30,19 @@ class Post(models.Model):
 class File(models.Model):
     file = models.FileField(upload_to=get_filename)
     post = models.ForeignKey(Post,on_delete=models.CASCADE)
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        path = self.file.path
+        if imghdr.what(path):
+            print(f'compressing image {path}')
+            image = Image.open(path)
+            image.save(path,quality=60,optimize=True)
+        else:
+            print('Not an image, therefore not compressing')
+    
+    @property
+    def root_folder(self):
+        return 'post_files/'
 
 
 class Comment(models.Model):
